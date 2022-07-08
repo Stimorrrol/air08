@@ -3,4 +3,3 @@ pandas
 numpy
 streamlit
 altair
-pip==22.1.2
