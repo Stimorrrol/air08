@@ -56,11 +56,11 @@ def get_air (df, aircraft_code_vid):
 st.subheader("Таблица с данными рейсов")
 
 #Таблица с данными рейсов (датафрейм)
-with st.expander("See explanation"):
+with st.expander("Показать/убрать таблицу"):
     st.dataframe(get_air (df, aircraft_code_vid))
 
 #Преобразование датафрейма для графика
-a = pd.DataFrame(get_air (df, aircraft_code)).groupby('aircraft_code').count().reset_index()
+a = pd.DataFrame(get_air (df, aircraft_code_vid)).groupby('aircraft_code').count().reset_index()
 ar = a[['aircraft_code','flight_id']]
 
 #Подзаголовок таблицы с данными рейсов
