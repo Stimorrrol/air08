@@ -35,27 +35,31 @@ def get_unique_flight(df):
     unique_teams = np.unique(df.aircraft_code).tolist()
     return unique_teams
 
-#Виджет множественного выбора самолёта
-aircraft_code = st.multiselect( "Вид самолёта: " , get_unique_flight(df))
+#Боковая панель
+with st.sidebar:
+    #Подзаголовок виджета выбора самолёта
+    st.subheader("Выберите вид самолёта")
+    #Виджет множественного выбора самолёта
+    aircraft_code_vid = st.multiselect( "" , get_unique_flight(df))
+    #Текст под виджетом, считающий количество выбранных позиций
+    st.write( "Выбрано" , len (aircraft_code_vid))
 
-#Текст под виджетом, считающий количество выбранных позиций
-st.write( "Выбрано" , len (aircraft_code))
-
-def get_air (df, aircraft_code):
+def get_air (df, aircraft_code_vid):
     """
     Функция, связывающая множественный выбор (выбор самолёта) с датафреймом.
     Т.е. в датафрейме выводятся отфильтрованные по множественному выбору строки
     """
-    un = df.loc[df['aircraft_code'].isin(aircraft_code)]
+    un = df.loc[df['aircraft_code'].isin(aircraft_code_vid)]
     return un
 
 #Подзаголовок таблицы с данными рейсов
 st.subheader("Таблица с данными рейсов")
 
 #Таблица с данными рейсов (датафрейм)
-st.dataframe(get_air (df, aircraft_code))
+with st.expander("See explanation"):
+    st.dataframe(get_air (df, aircraft_code_vid))
 
-
+#Преобразование датафрейма для графика
 a = pd.DataFrame(get_air (df, aircraft_code)).groupby('aircraft_code').count().reset_index()
 ar = a[['aircraft_code','flight_id']]
 
